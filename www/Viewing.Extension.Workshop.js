@@ -21,8 +21,9 @@
     var _ctr = 0;
     var _fpsAr = [];
     var _sum = 0;
-    var _URNs = ['dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTMyLTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzc3ODM0XzkwLm9iag==',
+    var _URNs = [
     'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM3LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzUxODkwXzYwLm9iag==',
+    'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTMyLTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzc3ODM0XzkwLm9iag==',
     'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM5LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzI1OTQ1XzMwLm9iag=='];
 
 
@@ -126,24 +127,79 @@
 
 
 
-
-
+            var stateFilter = {
+                guid: true,
+                seedURN: false,
+                objectSet: false,
+                viewport: true,
+                renderOptions: true
+            };
+            var state =viewer.getState (stateFilter) ;
 
           //Here, implement 1) unload current model and 2) load the next LOD 
-          viewer.impl.unloadCurrentModel();
+          //viewer.impl.unloadCurrentModel();
+            //viewer.impl.removeModel (viewer.model) ;
+
+
+
           console.log("would load this index: " + (_ctr % _URNs.length * 100)/100);
           //viewer.start(_URNs[1]);
 
 
           //The program successfully unloads the previous model, but does not load the next one. 
-          viewer.loadModel(_URNs[1]);
+       //   viewer.loadModel(_URNs[1]);
+
+
+          /*  var tokenurl = 'http://' + window.location.host + '/api/token';
+            var config = {
+                environment : 'AutodeskProduction'
+                //environment : 'AutodeskStaging'
+            };
+
+            // Instantiate viewer factory
+            var viewerFactory = new Autodesk.ADN.Toolkit.Viewer.AdnViewerFactory(
+                tokenurl,
+                config);
+            viewerFactory.getViewablePath (_URNs[1],
+                function(pathInfoCollection) {
+                    viewer.load(pathInfoCollection.path3d[0].path);
+                });
+*/
+            Autodesk.Viewing.Document.load (
+                'urn:' + _URNs [parseInt((_ctr % _URNs.length * 100)/100)],
+                function (document) {
+                    var items3d =Autodesk.Viewing.Document.getSubItemsWithProperties (
+                        document.getRootItem (),
+                        {
+                            'type': 'geometry',
+                            'role': '3d'
+                        },
+                        true
+                    ) ;
+                    clearInterval (_self.interval) ;
+                    viewer.impl.unloadCurrentModel () ;
+                    viewer.loadModel (document.getViewablePath (items3d [0]), {}, function () {
+                        viewer.restoreState (state, stateFilter, true) ;
+                        viewer.setProgressiveRendering (false) ;
+                        viewer.setEnvMapBackground (false) ;
+                        viewer.setGroundShadow (false) ;
+                        viewer.setQualityLevel (viewer.prefs.ambientShadows, false) ;
+                        viewer.setGhosting (false) ;
+                        //setTimeout(1000, function () { _self.startRotation () ; }) ;
+                        //_self.startRotation () ;
+                    }) ;
+                }
+            ) ;
+
+
+
 
 
 
           //ViewingApplication.prototype.getCurrentViewer();
           //viewer.load('dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM5LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzI1OTQ1XzMwLm9iag==');
           //Autodesk.Viewing.Document.load(URN);
-          _self.startRotation(); //automate camera movement
+          //automate camera movement
          
 
         }
