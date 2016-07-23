@@ -21,7 +21,7 @@
     var _ctr = 0;
     var _fpsAr = [];
     var _sum = 0;
-    _space = 200;
+    var _space = 200;
     //var _URNs = [
     //'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM3LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzUxODkwXzYwLm9iag==',
     //'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTMyLTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzc3ODM0XzkwLm9iag==',
