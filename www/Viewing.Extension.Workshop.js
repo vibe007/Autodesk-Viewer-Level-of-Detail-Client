@@ -21,11 +21,14 @@
     var _ctr = 0;
     var _fpsAr = [];
     var _sum = 0;
-    var _URNs = [
-    'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM3LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzUxODkwXzYwLm9iag==',
-    'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTMyLTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzc3ODM0XzkwLm9iag==',
-    'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM5LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzI1OTQ1XzMwLm9iag=='];
-
+    _space = 200;
+    //var _URNs = [
+    //'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM3LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzUxODkwXzYwLm9iag==',
+    //'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTMyLTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzc3ODM0XzkwLm9iag==',
+    //'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDE2LTA2LTI5LTIzLTI4LTM5LTJxdjBzNXVnbXVibWNleTAwMGdyMmhndDNibmYvYXJtYWRpbGxvXzI1OTQ1XzMwLm9iag=='];
+    var _URNs = [];
+    var templateURN = '';
+    var LODs = ['1', '5', '10', '50', '75'];
 
 
     /////////////////////////////////////////////////////////////////
@@ -78,7 +81,49 @@
       //To do: put the fps on the screen
       //var but = new Button();
       //_viewer.initModelStats();
+
+
+      //This piece of code generates the array of URNs given one of them. 
+      //ToDo: put this in its own funciton
+      var stateFilter = {
+                guid: false,
+                seedURN: true,
+                objectSet: false,
+                viewport: false,
+                renderOptions: false
+            };
+      templateURN = viewer.getState(stateFilter).seedURN;
+
+      //ToDo: generate the array of URNs. 
       console.log('Viewing.Extension.Workshop loaded');
+    
+      var orig = atob(templateURN);
+      console.log(orig);
+      var partsArray = orig.split('_')
+      partsArray.pop();
+      partsArray = partsArray.join("");
+      //partsArray.pop();
+      console.log(partsArray);
+      var tmp1 = '';
+      var tmp = '';
+      for (var i=0; i < LODs.length; ++i) {
+        tmp = partsArray + "_" + LODs[i] + ".obj";
+        console.log(tmp);
+        //console.log(btoa(tmp));
+        tmp = btoa(tmp).split('=');
+        console.log(tmp);
+        _URNs.push(tmp[0]);
+
+      }
+      //_URNs.sort();
+      // console.log(_URNs);
+      //  for (var i=0; i < LODs.length; ++i) {
+      //   console.log(_URNs[i]);
+      //   console.log(btoa(_URNs[i]));
+      //   _URNs[i] = btoa(_URNs[i]);
+      // }
+
+      //console.log(_URNs);
     
       return true;
 
@@ -103,7 +148,7 @@
 
         _ctr++;
         _fpsAr.push(_viewer.impl.fps());
-        if(_ctr % 100 == 0 ) {
+        if(_ctr % _space == 0 ) {
           //Todo - get the full array of dbIds, hardcoded for 3 LODs for now. 
 
           //var dbId = (_curID++ % _URNs.length) + 2; //change back to 3
@@ -111,7 +156,7 @@
           //console.log("here is _ctr: " + _ctr)
           //console.log("switching to: " + dbId);
           _viewer.getProperties(
-            2,
+            0,
             propertiesHandler);
 
           //_viewer.fitToView(dbId);
@@ -127,22 +172,15 @@
 
 
 
-            var stateFilter = {
-                guid: true,
-                seedURN: false,
-                objectSet: false,
-                viewport: true,
-                renderOptions: true
-            };
-            var state =viewer.getState (stateFilter) ;
+        
 
           //Here, implement 1) unload current model and 2) load the next LOD 
           //viewer.impl.unloadCurrentModel();
             //viewer.impl.removeModel (viewer.model) ;
 
 
-
-          console.log("would load this index: " + (_ctr % _URNs.length * 100)/100);
+          console.log(_ctr);
+          console.log("would load this index: " + (_ctr % (_URNs.length * _space))/_space);
           //viewer.start(_URNs[1]);
 
 
@@ -164,32 +202,44 @@
                 function(pathInfoCollection) {
                     viewer.load(pathInfoCollection.path3d[0].path);
                 });
-*/
-            Autodesk.Viewing.Document.load (
-                'urn:' + _URNs [parseInt((_ctr % _URNs.length * 100)/100)],
-                function (document) {
-                    var items3d =Autodesk.Viewing.Document.getSubItemsWithProperties (
-                        document.getRootItem (),
-                        {
-                            'type': 'geometry',
-                            'role': '3d'
-                        },
-                        true
-                    ) ;
-                    clearInterval (_self.interval) ;
-                    viewer.impl.unloadCurrentModel () ;
-                    viewer.loadModel (document.getViewablePath (items3d [0]), {}, function () {
-                        viewer.restoreState (state, stateFilter, true) ;
-                        viewer.setProgressiveRendering (false) ;
-                        viewer.setEnvMapBackground (false) ;
-                        viewer.setGroundShadow (false) ;
-                        viewer.setQualityLevel (viewer.prefs.ambientShadows, false) ;
-                        viewer.setGhosting (false) ;
-                        //setTimeout(1000, function () { _self.startRotation () ; }) ;
-                        //_self.startRotation () ;
-                    }) ;
-                }
-            ) ;
+*/  
+
+  loadModel(_URNs [parseInt((_ctr % (_URNs.length * _space))/_space)]);
+            // Autodesk.Viewing.Document.load (
+            //     'urn:' + _URNs [parseInt((_ctr % (_URNs.length * _space))/_space)],
+            //     function (document) {
+            //         var items3d =Autodesk.Viewing.Document.getSubItemsWithProperties (
+            //             document.getRootItem (),
+            //             {
+            //                 'type': 'geometry',
+            //                 'role': '3d'
+            //             },
+            //             true
+            //         ) ;
+            //         clearInterval (_self.interval) ;
+            //         viewer.impl.unloadCurrentModel () ;
+            //         viewer.loadModel (document.getViewablePath (items3d [0]), {}, function () {
+            //             viewer.restoreState (state, stateFilter, true) ;
+            //             viewer.setProgressiveRendering (false) ;
+            //             viewer.setEnvMapBackground (false) ;
+            //             viewer.setGroundShadow (false) ;
+            //             viewer.setQualityLevel (viewer.prefs.ambientShadows, false) ;
+            //             viewer.setGhosting (false) ;
+            //             //setTimeout(1000, function () { _self.startRotation () ; }) ;
+            //             _self.startRotation () ;
+            //         }) ;
+            //     }
+            // ) ;
+
+// catch(err) {
+//   console.log(err);
+//   loadModel(_URNs [parseInt((_ctr % (_URNs.length * _space))/_space)] + "==");
+
+
+
+
+
+// }
 
 
 
@@ -220,6 +270,44 @@ function getMean(A) {
     }
     sum = sum/A.length;
     return sum;
+   }
+
+
+   function loadModel(urn) {
+                    console.log("trying this urn: " + urn);
+                    var stateFilter = {
+                guid: true,
+                seedURN: false,
+                objectSet: false,
+                viewport: true,
+                renderOptions: true
+            };
+            var state =viewer.getState (stateFilter) ;
+                  Autodesk.Viewing.Document.load (
+                'urn:' + urn,
+                function (document) {
+                    var items3d =Autodesk.Viewing.Document.getSubItemsWithProperties (
+                        document.getRootItem (),
+                        {
+                            'type': 'geometry',
+                            'role': '3d'
+                        },
+                        true
+                    ) ;
+                    clearInterval (_self.interval) ;
+                    viewer.impl.unloadCurrentModel () ;
+                    viewer.loadModel (document.getViewablePath (items3d [0]), {}, function () {
+                        viewer.restoreState (state, stateFilter, true) ;
+                        viewer.setProgressiveRendering (false) ;
+                        viewer.setEnvMapBackground (false) ;
+                        viewer.setGroundShadow (false) ;
+                        viewer.setQualityLevel (viewer.prefs.ambientShadows, false) ;
+                        viewer.setGhosting (false) ;
+                        //setTimeout(1000, function () { _self.startRotation () ; }) ;
+                        _self.startRotation () ;
+                    }) ;
+                }
+            ) ;
    }
 
 
