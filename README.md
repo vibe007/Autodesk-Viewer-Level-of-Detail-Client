@@ -1,10 +1,8 @@
-# Autodesk View and Data API Node.js Basic Sample
+# Level of Detail Client
 
 
 ## Description
-A sample demonstrating how to view a model in a web application with the Autodesk View & Data API. This web application has a basic Node.js 
-server and JavaScript/HTML5 client. This sample does not demonstrate how to upload a model to the Autodesk server for translation. See instructions below 
-to prepare a model to be consumed in this sample.
+Using the Autodesk View & Data API, cycles through different levels of detail of a model and shows the appropriate one. 
 
 
 ## Dependencies
@@ -40,44 +38,27 @@ get model URNs - as explained in the Setup/Usage Instructions.
   
   client_secret: process.env.CONSUMERSECRET || '<replace with your consumer secret>';
   ```
-* Upload one of your models to your account and get its URN using another workflow sample, for example,
-  - [this workflow sample in .Net WPF application](https://github.com/Developer-Autodesk/workflow-wpf-view.and.data.api) if you are using windows 
-  - or [this workflow sample in Mac OS Swift](https://github.com/Developer-Autodesk/workflow-macos-swift-view.and.data.api) if you are using Mac
-  - or this [WEB page](http://models.autodesk.io/) or this [one](http://javalmvwalkthrough-vq2mmximxb.elasticbeanstalk.com/)
-* Copy the URN which was generated in the previous step in file /www/index.js at line #18 <br />
-  ```
-  var defaultUrn = '<replace with your encoded urn>';
-  ```
+* Get the URN from one of executing LOD_server and put it in /www/index.js, "defaultUrn". The remaining LODs are computed dynamically and the URNs of those models need not be provided. Instead, edit www/Viewing.Extension.Workshop.js and modify the variable "var LODs" with the versions you have translated (via LOD_server). 
+
+
 * Run the server from the Node.js console, by running the following command: <br />
   ```
   node server.js
   ```
 * Connect to you local server using a WebGL-compatible browser: [http://localhost:3000/](http://localhost:3000/)
 
-
-This sample can also work with the Autodesk staging server (vs production) or work with someone else's credentials as long you can get a valid token. 
-By default, the project is setup with the production server, and use your own credentials. If you are interested by a different setup, see the Options below.
+* Interact with the model, and if the frame rate is good, a higher LOD will automatically be loaded and swapped in asynchronously. 
 
 ## Options
 
 You can work with production or staging Autodesk View and Data environments. By default, the project is setup with the production server.
 
-* Instructions to setup this sample to use the Autodesk View & Data staging server are [here](https://github.com/Developer-Autodesk/workflow-node.js-view.and.data.api/blob/master/README-stg.md) 
-
-
-You can also use someone else credentials to view models using this sample.
-
-* Instructions to setup this sample using someone else credentials are available [here](https://github.com/Developer-Autodesk/workflow-node.js-view.and.data.api/blob/master/README-option.md) 
-
-
 ## License
 
 That samples are licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
 
-
 ## Written by 
 
-Written by [Philippe Leefsma](http://adndevblog.typepad.com/cloud_and_mobile/philippe-leefsma.html)  <br />
-(Autodesk Developer Network)
+Written by Vaibhav Vavilala  <br />
+(Autodesk Intern Developer Evangelist, 2016)
 
-# LOD

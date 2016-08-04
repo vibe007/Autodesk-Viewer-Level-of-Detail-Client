@@ -15,8 +15,8 @@
 		"node": ">= 0.10.0"
 	},
 	"contributors": [
-		"Philippe Leefsma <philippe.leefsma@autodesk.com>",
-		"Cyrille Fauvel <cyrille@autodesk.com>"
+		"Vaibhav Vavilala <vaibhav.vavilala@autodesk.com>",
+		
 	],
 	"license": "MIT",
 	"scripts": {
@@ -24,6 +24,6 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Developer-Autodesk/workflow-node.js-view.and.data.api.git"
+		"url": "https://git.autodesk.com/t-vaviv/LOD_Client"
 	}
 }
