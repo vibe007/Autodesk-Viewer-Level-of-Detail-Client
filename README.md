@@ -16,9 +16,6 @@ on the node.js console. This will install the following node.js modules in the p
 - request
 - serve-favicon
 
-This sample does not include the workflow of uploading models. on the server It depends on other workflow samples to upload models and 
-get model URNs - as explained in the Setup/Usage Instructions.
-
 
 ## Setup/Usage Instructions
  
