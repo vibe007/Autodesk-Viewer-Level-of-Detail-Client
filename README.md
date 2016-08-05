@@ -35,27 +35,16 @@ on the node.js console. This will install the following node.js modules in the p
   
   client_secret: process.env.CONSUMERSECRET || '<replace with your consumer secret>';
   ```
-* Get the URN from one of executing LOD_server and put it in /www/index.js, "defaultUrn". The remaining LODs are computed dynamically and the URNs of those models need not be provided. Instead, edit www/Viewing.Extension.Workshop.js and modify the variable "var LODs" with the versions you have translated (via LOD_server). 
-
-
+* Get the URN of one LOD by executing LOD_server (in a different [repository](https://git.autodesk.com/t-vaviv/LOD_server)) and put it in /www/index.js, "defaultUrn" variable. The remaining LODs are computed dynamically and the URNs of those models need not be provided. Instead, in www/Viewing.Extension.Workshop.js modify the variable "var LODs" with the versions you have translated (via LOD_server). 
 * Run the server from the Node.js console, by running the following command: <br />
   ```
   node server.js
   ```
-* Connect to you local server using a WebGL-compatible browser: [http://localhost:3000/](http://localhost:3000/)
+* Connect to your local server using a WebGL-compatible browser: [http://localhost:3000/](http://localhost:3000/)
 
-* Interact with the model, and if the frame rate is good, a higher LOD will automatically be loaded and swapped in asynchronously. 
-
-## Options
-
-You can work with production or staging Autodesk View and Data environments. By default, the project is setup with the production server.
-
-## License
-
-That samples are licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
+* Interact with the model, and if the frame rate is greater than the "_maxFPS" parameter in www/Viewing.Extension.Workshop.js, a higher LOD will automatically be loaded and swapped in. 
 
 ## Written by 
 
 Written by Vaibhav Vavilala  <br />
 (Autodesk Intern Developer Evangelist, 2016)
-

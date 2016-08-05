@@ -16,7 +16,7 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
 
-var defaultUrn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0LWpmazNmamFnb3gxNHdza3NlaGd4cmNlNzgzanh1a2ZnL3h5enJnYi1kcmFnb25fNzUuemlw';
+var defaultUrn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YnVja2V0LWpmazNmamFnb3gxNHdza3NlaGd4cmNlNzgzanh1a2ZnL3Nwb3RfNzUuemlw';
 
 $(document).ready(function () {
     var tokenurl = 'http://' + window.location.host + '/api/token';

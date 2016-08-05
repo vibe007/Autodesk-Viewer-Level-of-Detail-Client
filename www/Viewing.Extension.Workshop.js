@@ -189,7 +189,7 @@
         viewer.impl.unloadCurrentModel () ;
         viewer.loadModel (document.getViewablePath (items3d [0]), {}, function () {
           viewer.restoreState (state, stateFilter, true) ;
-          viewer.setProgressiveRendering (false) ;
+          viewer.setProgressiveRendering (true) ;
           viewer.setEnvMapBackground (false) ;
           viewer.setGroundShadow (false) ;
           viewer.setQualityLevel (viewer.prefs.ambientShadows, false) ;
