@@ -35,7 +35,7 @@ on the node.js console. This will install the following node.js modules in the p
   
   client_secret: process.env.CONSUMERSECRET || '<replace with your consumer secret>';
   ```
-* Get the URN of one LOD by executing LOD_server (in a different [repository](https://git.autodesk.com/t-vaviv/LOD_server)) and put it in /www/index.js, "defaultUrn" variable. The remaining LODs are computed dynamically and the URNs of those models need not be provided. Instead, in www/Viewing.Extension.Workshop.js modify the variable "var LODs" with the versions you have translated (using LOD_server). 
+* Get the URN of one LOD by executing LOD_server (in a different [repository](https://github.com/vibe007/Autodesk-Viewer-Level-of-Detail-Server)) and put it in /www/index.js, "defaultUrn" variable. The remaining LODs are computed dynamically and the URNs of those models need not be provided. Instead, in www/Viewing.Extension.Workshop.js modify the variable "var LODs" with the versions you have translated (using LOD_server). 
 * Run the server from the Node.js console, by running the following command: <br />
   ```
   node server.js
